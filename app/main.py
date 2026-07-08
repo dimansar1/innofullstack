@@ -1,8 +1,10 @@
 from fastapi import FastAPI
 
-from app.api.health import router as health_router
+from app.handlers.health import router as health_router
 from app.config.config import get_settings
 from app.schemas.tanks import TankCreateRequest, TankCreateResponse
+
+from app.database import Base, engine
 
 settings = get_settings()
 
@@ -11,6 +13,8 @@ app = FastAPI(
     version = settings.app_version,
     debug = settings.debug,
 )
+
+Base.metadata.create_all(bind=engine)
 
 app.include_router(health_router)
 
