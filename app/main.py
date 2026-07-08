@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 
 from app.handlers.health import router as health_router
+from app.handlers.tanks import router as tank_router
 from app.config.config import get_settings
-from app.schemas.tanks import TankCreateRequest, TankCreateResponse
 
 from app.database import Base, engine
 
@@ -17,6 +17,7 @@ app = FastAPI(
 Base.metadata.create_all(bind=engine)
 
 app.include_router(health_router)
+app.include_router(tank_router)
 
 @app.get("/")
 def root():
@@ -24,21 +25,6 @@ def root():
         "message": f"{settings.app_name} is running",
     }
 
-@app.post("/tanks", response_model = TankCreateResponse)
-def create_tank(tank: TankCreateRequest):
-    return {
-        "id": 1,
-        "title": tank.title,
-        "photo_path": tank.photo_path,
-        "health": tank.health,
-        "damage": tank.damage,
-        "armor": tank.armor,
-        "history": tank.history,
-        "recommendation": tank.recommendation,
-        "category": tank.category,
-        "nation": tank.nation,
-        "level": tank.level,
-    }
 
 
 
