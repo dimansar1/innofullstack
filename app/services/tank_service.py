@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from app.models.tank import Tank
 from app.repositories.tank_repository import TankRepository
-from app.schemas.tanks import TankCreate, TankUpdate
+from app.schemas.tank import TankCreate, TankUpdate
 
 
 class TankService:

@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 
 from app.database import get_db
-from app.schemas.tanks import TankCreate, TankResponse, TankUpdate
+from app.schemas.tank import TankCreate, TankResponse, TankUpdate
 from app.services.tank_service import TankService
 
 router = APIRouter(
