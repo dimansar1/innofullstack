@@ -12,8 +12,8 @@ class FavouriteRepository:
         self.db = db
         self.tank_repository = TankRepository(db)
 
-    def create(self, favourite: Favourite, tank_id: int) -> Favourite:
-        if not self.tank_repository.get_by_id(tank_id):
+    def create(self, favourite: Favourite) -> Favourite:
+        if not self.tank_repository.get_by_id(favourite.tank_id):
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail="Tank not found",

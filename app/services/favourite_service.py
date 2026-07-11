@@ -15,7 +15,7 @@ class FavouriteService:
             user_id=user_id,  
         )
 
-        return self.repository.create(favourite, tank_id)
+        return self.repository.create(favourite)
     
     def get_favourites_by_user_id(self, user_id: int) -> list[Favourite]:
         return self.repository.get_all_by_user_id(user_id)
