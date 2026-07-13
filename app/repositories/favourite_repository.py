@@ -6,6 +6,8 @@ from app.models.favourite import Favourite
 
 from app.repositories.tank_repository import TankRepository 
 
+from typing import Optional
+
 class FavouriteRepository:
 
     def __init__(self, db: Session):
@@ -34,6 +36,12 @@ class FavouriteRepository:
     
     def get_all_by_user_id(self, user_id: int) -> list[Favourite]:
         return self.db.query(Favourite).filter(Favourite.user_id == user_id).all()
+    
+    def get_by_tank_id(self, tank_id: int, user_id: int) -> Optional[Favourite]:
+        stmt = self.db.query(Favourite).filter(Favourite.tank_id == tank_id, Favourite.user_id == user_id)
+        return (
+            self.db.scalars(stmt).one_or_none()
+        )
     
     def delete(self, tank_id: int, user_id: int) -> None:
         self.db.query(Favourite).filter(Favourite.tank_id == tank_id, Favourite.user_id == user_id).delete()

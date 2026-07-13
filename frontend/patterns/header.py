@@ -11,7 +11,7 @@ def header():
 
     if header.button('Избранное'):
         if is_authenticated():
-            st.switch_page('pages/favourite.py')
+            st.switch_page('pages/favourites.py')
         else:
             st.switch_page('pages/noregistration.py')
 

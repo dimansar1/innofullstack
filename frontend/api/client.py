@@ -82,22 +82,30 @@ def get_error_message(response: rq.Response) -> str:
     except ValueError:
         return f"Ошибка backend: HTTP {response.status_code}"
 
+
+def get_my_user():
+    return request_with_authorization_header('GET', f'{USER_ENDPOINT}/users/me')
+
+
 def get_tanks():
     return request('GET', TANKS_ENDPOINT)
 
 def get_tank(tank_id: int):
     return request('GET', f'{TANKS_ENDPOINT}/{tank_id}')
 
+
+
 def get_favourites():
     return request_with_authorization_header('GET', FAVOURITES_ENDPOINT)
 
-def get_my_user():
-    return request_with_authorization_header('GET', f'{USER_ENDPOINT}/users/me')
+def get_favourite_by_tank_id(tank_id: int):
+    return request_with_authorization_header('GET', f'{FAVOURITES_ENDPOINT}/{tank_id}')
 
+def add_favourite(tank_id: int):
+    return request_with_authorization_header('POST', f'{FAVOURITES_ENDPOINT}/{tank_id}')
 
-
-
-
+def remove_favourite(tank_id: int):
+    return request_with_authorization_header('DELETE', f'{FAVOURITES_ENDPOINT}/{tank_id}')
 
 
 if __name__ == '__main__':

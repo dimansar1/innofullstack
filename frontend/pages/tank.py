@@ -1,8 +1,13 @@
 import requests
 import streamlit as st
+from json import dumps
 
 from api.client import get_error_message, get_tank
 
+from patterns.header import header
+from patterns.tank import render_favorite_button
+
+header()
 
 tank_id = st.session_state.get("selected_tank_id")
 
@@ -23,4 +28,5 @@ if not response.ok:
 
 tank = response.json()
 
-st.header(tank["title"])
+st.header(tank['title'])
+render_favorite_button(tank, key_prefix="details")

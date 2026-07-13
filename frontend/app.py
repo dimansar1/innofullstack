@@ -10,7 +10,7 @@ navbar = st.navigation(
         "Основные страницы": [
             st.Page("pages/tanks.py", title="Список танков"),
             st.Page("pages/tank.py", title="Информация о танке"),
-            st.Page("pages/favourite.py", title="Избранное"),
+            st.Page("pages/favourites.py", title="Избранное"),
             st.Page("pages/profile.py", title="Профиль"),
         ]
     }
