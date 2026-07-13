@@ -26,6 +26,26 @@ if not response.ok:
     st.stop()
 
 tank = response.json()
+left, right = st.columns(2, vertical_alignment='center')
 
-st.title(tank.get('title'))
-render_favorite_button(tank, key_prefix="details")
+if tank.get('photo_path') == '-':
+    left.info('Изображение не добавлено')
+
+col_info, col_favourite = right.columns(2, vertical_alignment='center')
+col_info.title(tank.get('title'))
+col_info.write(f"Уровень: {tank.get('level')}")
+col_info.write(f"Тип: {tank.get('category')}")
+col_info.write(f"Нация: {tank.get('nation')}")
+col_info.write(f"Здоровье: {tank.get('health')}")
+col_info.write(f"Урон: {tank.get('damage')}")
+col_info.write(f"Бронирование: {tank.get('armor')}")
+
+with col_favourite:
+    render_favorite_button(tank, key_prefix="details")
+
+st.subheader('Историческая справка')
+st.write(tank.get('history'))
+
+st.subheader('Рекомендации')
+st.write(tank.get('recommendation'))
+

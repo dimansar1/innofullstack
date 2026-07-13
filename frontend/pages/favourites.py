@@ -6,6 +6,8 @@ from api.client import get_error_message, get_favourites, get_tank
 from patterns.tank import render_tank_card
 from patterns.header import header
 
+from patterns.cookie import controller
+
 header()
 
 st.title("Избранное")

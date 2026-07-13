@@ -2,6 +2,8 @@ import requests as rq
 from streamlit import session_state
 from typing import Optional
 
+from patterns.cookie import controller
+
 BACKEND_URL = "http://127.0.0.1:8000"
 
 FAVOURITES_ENDPOINT = f'{BACKEND_URL}/favourites'
@@ -16,7 +18,7 @@ def request_with_authorization_header(
     payload: Optional[dict] = None,
 ) -> rq.Response:
     headers = {
-        "Authorization": f"Bearer {session_state['access_token']}"
+        "Authorization": f"Bearer {controller.get('access_token')}"
     }
 
     if request_type == "GET":
@@ -31,7 +33,7 @@ def request_with_authorization_header(
         raise ValueError("Неизвестный тип запроса")
 
     if response.status_code == 401:
-        session_state.pop("access_token", None)
+        controller.remove("access_token")
         session_state.pop("profile", None)
 
     return response
@@ -54,7 +56,7 @@ def request(
         raise ValueError("Неизвестный тип запроса")
 
     if response.status_code == 401:
-        session_state.pop("access_token", None)
+        controller.remove("access_token")
         session_state.pop("profile", None)
 
     return response

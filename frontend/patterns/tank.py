@@ -13,9 +13,13 @@ def render_tank_card(tank: dict) -> None:
         else:
             st.info("Изображение не добавлено")
 
-        st.subheader(tank.get("title"))
+        left, right = st.columns(2, vertical_alignment='bottom')
+        left.subheader(tank.get("title"))
+        left.write(f'Уровень: {tank.get("level")}')
+        left.write(f'Тип: {tank.get("category")}')
+        left.write(f'Нация: {tank.get("nation")}')
 
-        if st.button("Подробнее", key=f"card_details_{tank_id}"):
+        if right.button("Подробнее", key=f"card_details_{tank_id}"):
             st.session_state["selected_tank_id"] = tank_id
             st.switch_page("pages/tank.py")
 
@@ -29,7 +33,7 @@ def render_favorite_button(tank: dict, key_prefix: str) -> None:
     is_favorite = get_favourite_by_tank_id(tank_id)
     button_text = "Убрать из избранного" if is_favorite.status_code == 200 else "В избранное"
 
-    if st.button(button_text, key=f"{key_prefix}_favorite_{tank_id}"):
+    if st.button(button_text, key=f"{key_prefix}_favorite_{tank_id}", type='primary'):
         try:
             if is_favorite.status_code == 200:
                 response = remove_favourite(tank_id)

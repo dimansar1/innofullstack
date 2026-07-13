@@ -5,6 +5,7 @@ from api.client import get_error_message, login, get_my_user
 from auth.state import clear_auth, is_authenticated, save_auth
 
 from patterns.header import header
+from patterns.cookie import controller
 
 header()
 
@@ -45,7 +46,7 @@ if submitted:
         st.error("Backend не вернул access_token.")
         st.stop()
 
-    st.session_state["access_token"] = access_token
+    controller.set("access_token", access_token)
 
     try:
         profile_response = get_my_user()
