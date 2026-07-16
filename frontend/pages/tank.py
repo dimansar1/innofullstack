@@ -1,7 +1,7 @@
 import requests
 import streamlit as st
 
-from api.client import get_error_message, get_tank, get_media_url
+from api.client import get_error_message, get_tank
 
 from patterns.header import header
 from patterns.tank import render_favorite_button
@@ -29,12 +29,10 @@ if not response.ok:
 tank = response.json()
 left, right = st.columns(2, vertical_alignment='center')
 
-photo_url = get_media_url(tank.get("photo_path"))
-
-if not photo_url:
+if tank.get('photo_path') == '-':
     left.info('Изображение не добавлено')
 else:
-    left.image(photo_url, width='stretch')
+    left.image(tank.get("photo_path"), width='stretch')
 
 col_info, col_favourite = right.columns(2, vertical_alignment='center')
 col_info.title(tank.get('title'))
@@ -53,3 +51,4 @@ st.write(tank.get('history'))
 
 st.subheader('Рекомендации')
 st.write(tank.get('recommendation'))
+
