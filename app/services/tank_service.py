@@ -1,4 +1,4 @@
-from fastapi import HTTPException, status
+from fastapi import HTTPException, status, File
 from sqlalchemy.orm import Session
 
 from app.models.tank import Tank
@@ -76,3 +76,6 @@ class TankService:
     def delete_tank(self, tank_id: int) -> None:
         self.repository.delete(tank_id)
         self.favourite_repository.delete_by_tank_id(tank_id)
+
+    def load_file(self, tank_id: int, filename: str):
+        return self.repository.load_file(tank_id, filename)

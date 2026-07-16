@@ -2,6 +2,9 @@ import sys
 from pathlib import Path
 
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+
+from pathlib import Path
 
 from app.handlers.health import router as health_router
 from app.handlers.auth import router as auth_router
@@ -19,6 +22,15 @@ app = FastAPI(
     title = settings.app_name,
     version = settings.app_version,
     debug = settings.debug,
+)
+
+MEDIA_DIR = Path(__file__).resolve().parent / "media"
+MEDIA_DIR.mkdir(parents=True, exist_ok=True)
+
+app.mount(
+    "/media",
+    StaticFiles(directory=MEDIA_DIR),
+    name="media",
 )
 
 Base.metadata.create_all(bind=engine)

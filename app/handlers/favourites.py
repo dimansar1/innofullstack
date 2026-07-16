@@ -20,6 +20,10 @@ def get_favourite_service(db: Session = Depends(get_db)) -> FavouriteService:
 def get_favourites(current_user: User = Depends(get_current_user), service: FavouriteService = Depends(get_favourite_service)):
     return service.get_favourites_by_user_id(current_user.id)
 
+@router.get("/{tank_id}", response_model=FavouriteResponse)
+def get_favourite_by_tank_id(tank_id: int, current_user: User = Depends(get_current_user), service: FavouriteService = Depends(get_favourite_service)):
+    return service.get_favourites_by_tank_id(tank_id, current_user.id)
+
 @router.post("/{tank_id}", response_model=FavouriteResponse, status_code=status.HTTP_201_CREATED)
 def create_favourite(tank_id: int, current_user: User = Depends(get_current_user), service: FavouriteService = Depends(get_favourite_service)):
     return service.create_favourite(tank_id, current_user.id)

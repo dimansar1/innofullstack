@@ -15,7 +15,7 @@ from app.schemas.token import TokenData
 
 from typing import Optional
 
-password_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+password_context = CryptContext(schemes=["argon2"], deprecated="auto")
 bearer_scheme = HTTPBearer(auto_error=False)
 
 

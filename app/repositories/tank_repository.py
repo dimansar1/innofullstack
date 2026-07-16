@@ -35,6 +35,8 @@ class TankRepository:
     def delete(self, tank_id: int) -> None:
         self.db.query(Tank).filter(Tank.id == tank_id).delete()
         self.db.commit()
-
-
     
+    def load_file(self, tank_id: int, filename: str):
+        tank = self.get_by_id(tank_id)
+        tank.photo_path = filename
+        self.db.commit()
