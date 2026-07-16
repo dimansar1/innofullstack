@@ -1,21 +1,20 @@
 import streamlit as st
 from typing import Optional
 
-from patterns.cookie import get_cookie, remove_cookie, set_cookie
+from patterns.cookie import controller
 
-def save_auth(access_token: Optional[str], profile: dict) -> None:
-    if access_token:
-        set_cookie("access_token", access_token)
+def save_auth(access_token: str, profile: dict) -> None:
+    controller.set("access_token", access_token)
     st.session_state["profile"] = profile
 
 
 def clear_auth() -> None:
-    remove_cookie("access_token")
+    controller.remove("access_token")
     st.session_state.pop("profile", None)
 
 
 def is_authenticated() -> bool:
-    return bool(get_cookie("access_token"))
+    return bool(controller.get("access_token"))
 
 
 def current_profile() -> Optional[dict]:

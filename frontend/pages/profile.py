@@ -5,7 +5,7 @@ from api.client import get_error_message, get_my_user
 from auth.state import clear_auth, save_auth
 
 from patterns.header import header
-from patterns.cookie import get_cookie
+from patterns.cookie import controller
 
 header()
 
@@ -23,7 +23,7 @@ if not response.ok:
     st.stop()
 
 profile = response.json()
-save_auth(get_cookie("access_token"), profile)
+save_auth(controller.get("access_token"), profile)
 
 st.write(f"**Никнейм:** {profile.get('nickname', 'Не указано')}")
 st.write(f"**Почта:** {profile.get('email', 'Не указана')}")
