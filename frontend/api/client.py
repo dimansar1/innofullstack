@@ -3,6 +3,7 @@ import streamlit as st
 from streamlit import session_state
 from typing import Optional
 from fastapi import UploadFile
+from urllib.parse import quote
 
 from patterns.cookie import controller
 
@@ -12,6 +13,25 @@ FAVOURITES_ENDPOINT = f'{BACKEND_URL}/favourites'
 TANKS_ENDPOINT = f'{BACKEND_URL}/tanks'
 AUTH_ENDPOINT = f'{BACKEND_URL}/auth'
 USER_ENDPOINT = f'{BACKEND_URL}/users'
+
+def get_media_url(photo_path: Optional[str]) -> Optional[str]:
+    if not photo_path or photo_path == "-":
+        return None
+
+    photo_path = str(photo_path)
+
+    if photo_path.startswith(("http://", "https://")):
+        return photo_path
+
+    normalized_path = photo_path.replace("\\", "/")
+    media_prefix = "/media/"
+
+    if media_prefix in normalized_path:
+        media_path = normalized_path[normalized_path.rfind(media_prefix):]
+        return f"{BACKEND_URL}{quote(media_path, safe='/%')}"
+
+    filename = normalized_path.rsplit("/", 1)[-1]
+    return f"{BACKEND_URL}/media/{quote(filename)}"
 
 def request_with_authorization_header(
     request_type: str,

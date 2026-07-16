@@ -1,5 +1,4 @@
 import uuid
-import os
 
 from fastapi import APIRouter, Depends, status, UploadFile
 from sqlalchemy.orm import Session
@@ -43,11 +42,11 @@ async def load_photo(tank_id: int, file: UploadFile, service: TankService = Depe
     MEDIA_DIR = Path(__file__).resolve().parent.parent / "media"
     MEDIA_DIR.mkdir(parents=True, exist_ok=True)
 
-    ext = file.filename
-    filename = f"{uuid.uuid4()}.{ext}"
-    filepath = os.path.join(MEDIA_DIR, filename)
+    suffix = Path(file.filename or "").suffix
+    filename = f"{uuid.uuid4()}{suffix}"
+    filepath = MEDIA_DIR / filename
 
     with open(filepath, "wb") as f:
         f.write(await file.read())
 
-    return service.load_file(tank_id, filepath)
+    return service.load_file(tank_id, f"/media/{filename}")

@@ -2,14 +2,15 @@ import requests
 import streamlit as st
 
 from auth.state import is_authenticated
-from api.client import get_error_message, get_favourite_by_tank_id, add_favourite, remove_favourite, delete_tank
+from api.client import get_error_message, get_favourite_by_tank_id, add_favourite, remove_favourite, delete_tank, get_media_url
 
 def render_tank_card(tank: dict) -> None:
     tank_id = tank.get("id")
 
     with st.container(border=True):
-        if tank.get("photo_path") != '-':
-            st.image(tank.get("photo_path"), use_container_width=True)
+        photo_url = get_media_url(tank.get("photo_path"))
+        if photo_url:
+            st.image(photo_url, use_container_width=True)
         else:
             st.info("Изображение не добавлено")
 
@@ -61,8 +62,9 @@ def render_tank_card_for_edit(tank: dict) -> None:
     tank_id = tank.get("id")
 
     with st.container(border=True):
-        if tank.get("photo_path") != '-':
-            st.image(tank.get("photo_path"), width='stretch')
+        photo_url = get_media_url(tank.get("photo_path"))
+        if photo_url:
+            st.image(photo_url, width='stretch')
         else:
             st.info("Изображение не добавлено")
 
