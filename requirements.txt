@@ -50,5 +50,6 @@ sqlalchemy
 pydantic-settings
 python-jose[cryptography]
 passlib[bcrypt]
+argon2-cffi
 bcrypt==3.2.2
 httpx
