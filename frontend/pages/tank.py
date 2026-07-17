@@ -4,7 +4,7 @@ import streamlit as st
 from api.client import get_error_message, get_tank
 
 from patterns.header import header
-from patterns.tank import render_favorite_button
+from patterns.tank import render_favorite_button, render_tank_image
 
 header()
 
@@ -29,10 +29,7 @@ if not response.ok:
 tank = response.json()
 left, right = st.columns(2, vertical_alignment='center')
 
-if tank.get('photo_path') == '-':
-    left.info('Изображение не добавлено')
-else:
-    left.image(tank.get("photo_path"), width='stretch')
+render_tank_image(left, tank.get("photo_path"), width='stretch')
 
 col_info, col_favourite = right.columns(2, vertical_alignment='center')
 col_info.title(tank.get('title'))
@@ -51,4 +48,3 @@ st.write(tank.get('history'))
 
 st.subheader('Рекомендации')
 st.write(tank.get('recommendation'))
-

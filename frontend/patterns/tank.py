@@ -4,14 +4,23 @@ import streamlit as st
 from auth.state import is_authenticated
 from api.client import get_error_message, get_favourite_by_tank_id, add_favourite, remove_favourite, delete_tank
 
+
+def render_tank_image(container, photo_path: str | None, **image_options) -> None:
+    if not photo_path or photo_path == "-":
+        container.info("Изображение не добавлено")
+        return
+
+    try:
+        container.image(photo_path, **image_options)
+    except Exception:
+        container.warning("Не удалось показать картинку")
+
+
 def render_tank_card(tank: dict) -> None:
     tank_id = tank.get("id")
 
     with st.container(border=True):
-        if tank.get("photo_path") != '-':
-            st.image(tank.get("photo_path"), use_container_width=True)
-        else:
-            st.info("Изображение не добавлено")
+        render_tank_image(st, tank.get("photo_path"), use_container_width=True)
 
         left, right = st.columns(2, vertical_alignment='bottom')
         left.subheader(tank.get("title"))
@@ -61,10 +70,7 @@ def render_tank_card_for_edit(tank: dict) -> None:
     tank_id = tank.get("id")
 
     with st.container(border=True):
-        if tank.get("photo_path") != '-':
-            st.image(tank.get("photo_path"), width='stretch')
-        else:
-            st.info("Изображение не добавлено")
+        render_tank_image(st, tank.get("photo_path"), width='stretch')
 
         left, right = st.columns(2, vertical_alignment='bottom')
         left.subheader(tank.get("title"))
